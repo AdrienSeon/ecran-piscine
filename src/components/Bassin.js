@@ -29,7 +29,7 @@ class Bassin extends Component {
 					id: bassinName+"-ph",
 					name: 'PH',
 					value: '2',
-					unit: '-',
+					unit: '',
 					checked: false
 				},{
 					id: bassinName+"-debit",
@@ -89,7 +89,7 @@ class Bassin extends Component {
 				{ 
 					this.state.measureList.map(measure => {
 						return measure.checked && !this.state.isHovering ?
-						    <p>{measure.name + " : "}<span>{measure.value}</span></p>
+						    <p>{measure.name + " : "}<span>{measure.value + " " + measure.unit}</span></p>
 						: this.state.isHovering ?
 							<div className='measure-list'>
 									<FormControlLabel
@@ -102,7 +102,7 @@ class Bassin extends Component {
 												color='primary'
 											/>
 										}
-									label={measure.name + " : " + measure.value}
+									label={measure.name + " : " + measure.value + " " + measure.unit}
 									labelPlacement="start"
 			      					/>
 							</div>
