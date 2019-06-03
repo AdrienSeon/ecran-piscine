@@ -6,6 +6,8 @@ import DateDisplay from './components/DateDisplay.js';
 import WidgetMeteo from './components/WidgetMeteo.js';
 import './App.css';
 
+//https://stackoverflow.com/questions/8652948/using-port-number-in-windows-host-file
+//"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe" --start-fullscreen --disable-web-security --user-data-dir
 
 class App extends Component {
 
