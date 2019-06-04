@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import xmlParser from 'fast-xml-parser';
 import axios from 'axios';
+import xmlParser from 'fast-xml-parser';
 
 class WidgetMeteo extends Component {
 
@@ -11,53 +11,70 @@ class WidgetMeteo extends Component {
 
 		this.state = {
 			id: widgetName,
-			name: '-',
-			value: '-',
-			unit: '-',
+			name: '',
+			value: '25',
+			unit: '°C',
 			error: null,
 			isLoaded: false,
 		}
 
-		this.xhr = null
+		this.getObixData = this.getObixData.bind(this);
 	}
 
-componentDidMount() {
 
-	const url = 'http://' + this.props.ipGTB + '/obix/config/Drivers/' + this.props.pointUrl;
+	getObixData(ipGTB, pointUrl) {
+		const url = 'http://' + ipGTB + '/obix/config/Drivers/' + pointUrl;
+
+		axios.get(url, {
+				auth: {
+					username: 'obix',
+					password: 'syscom'
+				},
+				withCredentials: true,
+				responseType: 'arraybuffer',
+		})
+		.then((response) => {
+			console.log(String.fromCharCode.apply(null, new Uint8Array(response.data)));
+
+			//console.log(response.data.toString('latin1'));
+/*			let xmlParsed = xmlParser.parse(response.data.toString('latin1'), {localeRange: 'fr', ignoreAttributes: false, attrNodeName: "_attr", attributeNamePrefix: '',})
+			console.log(xmlParsed);
+			return xmlParsed*/
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.then((obixData) => {
+/*			const name = obixData.real.str._attr.display.split(',')[4].split('=')[1];
+			const value = obixData.real._attr.val;
+			const unit = obixData.real.str._attr.display.split(',')[0].split('=')[1];
+
+			this.setState({ name });
+			this.setState({ value });
+			this.setState({ unit });*/
+		});
+
+
+/*axios.interceptors.response.use((response) => {
+	console.log('interceptor')
+	var ctype: string = response.headers["content-type"];
+	response.data = ctype.includes("charset=iso-8859-1") ?
+	ctype.decode(response.data, 'iso-8859-1') :
+	ctype.decode(response.data, 'utf-8');
+    return response;
+  }, (error) => {
+    // Do something with response error
+    return Promise.reject(error);
+  });*/
 
 
 
 
+	}
 
 
 
-axios.get(url, {
-		auth: {
-			username: 'obix',
-			password: 'syscom'
-		},
-		withCredentials: true,
-		headers: {
-			'Access-Control-Allow-Origin': '*'
-		},
-		responseType: 'text',
-})
-.then((response) => {
-	console.log(response.data);
-	return xmlParser.parse(response.data, {localeRange: 'fr', ignoreAttributes: false, attrNodeName: "_attr", attributeNamePrefix: '',})
-})
-.catch((error) => {
-	console.log(error);
-})
-.then((obixData) => {
-	const unit = obixData.real.str._attr.display.split(',')[0].split('=')[1];
-	const name = obixData.real.str._attr.display.split('=')[5];
-	const value = obixData.real._attr.val;
 
-	this.setState({ name });
-	this.setState({ value });
-	this.setState({ unit });
-});
 
 /*		  .then(response => response.arrayBuffer())
 		  .then(buffer => {
@@ -66,16 +83,10 @@ axios.get(url, {
 		    console.log(text)
 		  });*/
 
+	componentDidMount() {
+		this.getObixData(this.props.ipGTB, this.props.pointUrl)
+	}
 
-
-}
-
-    componentWillUnmount() {
-        // Cancel the xhr request, so the callback is never called
-        if (this.xhr && this.xhr.readyState != 4) {
-            this.xhr.abort();
-        }
-    }
 
 	render() {
 		const className = 'widget ' + this.props.type.toLowerCase() + '-widget';
