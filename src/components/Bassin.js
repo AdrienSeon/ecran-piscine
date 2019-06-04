@@ -1,17 +1,18 @@
 import React, { Component } from "react";
+import axios from 'axios';
+import xmlParser from 'fast-xml-parser';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import classNames from "classnames";
 
 class Bassin extends Component {
-// TODO
-// Enlever unité du state et la mettre dans le render comme le widget
-// ID et name avec les propsname et virer le name du state
+
 	constructor(props) {
 		super(props);
 		
-		const bassinName = props.name;
-		const localStorageState = window.localStorage.getItem(bassinName);
+		
+		const bassinId = props.id;
+		const localStorageState = window.localStorage.getItem(bassinId);
 		
 		if (localStorageState) {
 			this.state = JSON.parse(localStorageState);
@@ -20,41 +21,47 @@ class Bassin extends Component {
 			this.state = {
 				isHovering: false,
 				measureList: [{
-					id: bassinName+"-temperature",
+					id: 'point1',
 					name: 'Température',
-					value: '22',
+					value: '23',
 					unit: '°C',
-					checked: true
+					checked: true,
+					error: null,
 				},{
-					id: bassinName+"-ph",
-					name: 'PH',
-					value: '2',
-					unit: '',
-					checked: false
-				},{
-					id: bassinName+"-debit",
+					id: 'point2',
 					name: 'Débit',
 					value: '123',
 					unit: 'm3/h',
-					checked: false
+					checked: false,
+					error: null,
 				},{
-					id: bassinName+"-test4",
-					name: 'Test4',
-					value: '123',
-					unit: 'm3/h',
-					checked: false
+					id: 'point3',
+					name: 'PH',
+					value: '2',
+					unit: '',
+					checked: false,
+					error: null,
 				},{
-					id: bassinName+"-test5",
-					name: 'Test5',
-					value: '123',
-					unit: 'm3/h',
-					checked: false
+					id: 'point4',
+					name: 'Taux de chlore libre',
+					value: '3',
+					unit: '',
+					checked: false,
+					error: null,
+				},{
+					id: 'point5',
+					name: 'Taux de chlore combiné',
+					value: '1',
+					unit: '',
+					checked: false,
+					error: null,
 				}]
 			};
 		}
 
 		this.handleInputChange= this.handleInputChange.bind(this);
 		this.handleMouseHover = this.handleMouseHover.bind(this);
+		this.getObixData = this.getObixData.bind(this);
 	}
 
 	handleInputChange(event) {   
@@ -78,10 +85,49 @@ class Bassin extends Component {
 		};
 	}
 
+	getObixData(ipGTB, pointUrl) {
+		const url = 'http://' + ipGTB + '/obix/config/Drivers/' + pointUrl;
+
+		axios.get(url, {
+				auth: {
+					username: 'obix',
+					password: 'syscom'
+				},
+				withCredentials: true,
+				headers: {
+					'Access-Control-Allow-Origin': '*'
+				},
+				responseType: 'text',
+		})
+		.then((response) => {
+			return xmlParser.parse(response.data, {localeRange: 'fr', ignoreAttributes: false, attrNodeName: "_attr", attributeNamePrefix: '',})
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.then((obixData) => {
+			const name = obixData.real.str._attr.display.split(',')[4].split('=')[1];
+			const value = obixData.real._attr.val;
+			const unit = obixData.real.str._attr.display.split(',')[0].split('=')[1];
+
+			this.setState({ name });
+			this.setState({ value });
+			this.setState({ unit });
+		});
+	}
+
+	componentDidMount() {
+	/*	this.getObixData(this.props.ipGTB, this.props.pointUrl1)
+		this.getObixData(this.props.ipGTB, this.props.pointUrl2)
+		this.getObixData(this.props.ipGTB, this.props.pointUrl3)
+		this.getObixData(this.props.ipGTB, this.props.pointUrl4)
+		this.getObixData(this.props.ipGTB, this.props.pointUrl5)*/
+	}
+
 	render() {
 		return (
 			<div
-				className={classNames('bassin ' + this.props.name.toLowerCase())}
+				className={classNames('bassin ' + this.props.id.toLowerCase())}
 				onMouseEnter={this.handleMouseHover}
 				onMouseLeave={this.handleMouseHover}
 				>
