@@ -11,7 +11,7 @@ class DateDisplay extends Component {
 					<Moment  interval={1000} format="dddd D MMMM YYYY" />
 				</div>
 				<div className='time'>
-					<Moment className='time' interval={1000} format="hh:mm:ss" />
+					<Moment className='time' interval={1000} format="HH:mm:ss" />
 				</div>
 			</div>
 		);
