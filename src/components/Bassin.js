@@ -93,35 +93,29 @@ class Bassin extends Component {
 					username: 'obix',
 					password: 'syscom'
 				},
-				withCredentials: true,
-				headers: {
-					'Access-Control-Allow-Origin': '*'
-				},
-				responseType: 'text',
+				responseType: 'document',
 		})
 		.then((response) => {
-			return xmlParser.parse(response.data, {localeRange: 'fr', ignoreAttributes: false, attrNodeName: "_attr", attributeNamePrefix: '',})
-		})
-		.catch((error) => {
-			console.log(error);
-		})
-		.then((obixData) => {
-			const name = obixData.real.str._attr.display.split(',')[4].split('=')[1];
-			const value = obixData.real._attr.val;
-			const unit = obixData.real.str._attr.display.split(',')[0].split('=')[1];
+			const facet = response.data.getElementsByTagName("str")[0].getAttribute('display');
+			const name = facet.split(',')[4].split('=')[1];
+			const value = parseInt(response.data.getElementsByTagName("real")[0].getAttribute('val'));
+			const unit = facet.split(',')[0].split('=')[1];
 
 			this.setState({ name });
 			this.setState({ value });
 			this.setState({ unit });
-		});
+		})
+		.catch((error) => {
+			console.log(error);
+		})
 	}
 
 	componentDidMount() {
-	/*	this.getObixData(this.props.ipGTB, this.props.pointUrl1)
+		this.getObixData(this.props.ipGTB, this.props.pointUrl1)
 		this.getObixData(this.props.ipGTB, this.props.pointUrl2)
 		this.getObixData(this.props.ipGTB, this.props.pointUrl3)
 		this.getObixData(this.props.ipGTB, this.props.pointUrl4)
-		this.getObixData(this.props.ipGTB, this.props.pointUrl5)*/
+		this.getObixData(this.props.ipGTB, this.props.pointUrl5)
 	}
 
 	render() {
