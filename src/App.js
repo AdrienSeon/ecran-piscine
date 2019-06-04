@@ -12,7 +12,7 @@ import './App.css';
 class App extends Component {
 
 	render() {
-		const ipGTB = '192.168.1.13:81'
+		const ipGTB = '192.168.1.18:81'
 		return (
 			<div className="bg">
 				<CssBaseline />
@@ -26,11 +26,11 @@ class App extends Component {
 							ipGTB={ ipGTB }
 							pointUrl="BacnetNetwork/AE%242dCH/points/AE%242dCH%2420Commun/AnalogValue/Temperature_Exterieure"
 						/>
-{/*						<WidgetMeteo 
+						<WidgetMeteo 
 							type="wind"
 							ipGTB={ ipGTB }
 							pointUrl="BacnetNetwork/AE%242dCH/points/AE%242dCH%2420Commun/AnalogInput/Anemometre"
-						/>*/}
+						/>
 						<DateDisplay />
 						<EditeurCentral />
 						<Bassin
@@ -58,20 +58,20 @@ class App extends Component {
 							name="Bassin apprentissage"
 							ipGTB={ ipGTB }
 							pointUrl1="BacnetNetwork/AE_V2/points/Echangeur2/AnalogInput/Temperature_retour_goulotte"
-							pointUrl2="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Debit_bassin"
+							pointUrl2="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Debit_bassin_mixte"
 							pointUrl3="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_CL_combine"
-							pointUrl4="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_CL_libre"
-							pointUrl5="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_PH"
+							pointUrl4="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_CL_bassin$20mixte_libre"
+							pointUrl5="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_PH_bassin_mixte_pataugeoire"
 						/>
 						<Bassin
 							id="bassin4"
 							name="Pataugeoire"
 							ipGTB={ ipGTB }
 							pointUrl1="BacnetNetwork/AE_V2/points/Echangeur3/AnalogInput/Temperature_retour_goulotte"
-							pointUrl2="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Debit_bassin"
+							pointUrl2="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Debit_Pataugeoire"
 							pointUrl3="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_CL_combine"
-							pointUrl4="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_CL_libre"
-							pointUrl5="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_PH"
+							pointUrl4="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_CL_pataugeoire_libre"
+							pointUrl5="ModbusTcpNetwork/Plomberie_Herve_Thermique/points/Circuit_2/Taux_PH_bassin_mixte_pataugeoire"
 						/>
 						<Bassin
 							id="bassin5"
