@@ -1,0 +1,21 @@
+.bassin p {
+	font-size: 16px;
+	height: 38px;
+	line-height: 38px;
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+	letter-spacing: 0.00938em;
+	margin: 0;
+	font-weight: 500;
+}
+
+.bassin .MuiFormControlLabel-label {
+	font-size: 16px;
+	height: 38px;
+	line-height: 38px;
+	font-weight: 500;
+}
+
+.bassin p span {
+	font-weight: 700;
+	font-size: 18px;
+}
