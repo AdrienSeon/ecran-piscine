@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "ecran-piscine",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -42,6 +42,5 @@
     ]
   },
   "devDependencies": {},
-  "proxy": "http://localhost:3001",
-  "homepage": "http://localhost:3000/client"
+  "proxy": "http://localhost:3001"
 }
