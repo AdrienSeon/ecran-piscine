@@ -1,0 +1,12 @@
+.bassin {
+	background: url("../../../assets/images/bassin-bg.png") no-repeat;
+	-webkit-background-size: 100%;
+	color: #3d8eb9;
+	padding: 30px 70px 70px;
+	width: 383px;
+}
+
+.bassin h2 {
+	text-align: center;
+	margin: 20px 0 10px;
+}
