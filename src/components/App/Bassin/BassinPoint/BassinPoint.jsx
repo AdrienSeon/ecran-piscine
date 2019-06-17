@@ -9,19 +9,19 @@ class BassinPoint extends Component {
 	constructor(props) {
 		super(props);
 
-		const localStorageState = window.localStorage.getItem(this.props.pointId);
+		this.state = {
+			id: this.props.pointId,
+			name: '-',
+			value: '-',
+			unit: '-',
+			checked: true,
+			error: null,
+		}
 
+		const localStorageState = window.localStorage.getItem(this.props.pointId);
 		if (localStorageState) {
+			console.log(JSON.parse(localStorageState))
 			this.state = JSON.parse(localStorageState);
-		} else {
-			this.state = {
-				id: this.props.pointId,
-				name: '-',
-				value: '-',
-				unit: '-',
-				checked: true,
-				error: null,
-			}
 		}
 
 		this.getObixData = this.getObixData.bind(this);
@@ -57,7 +57,7 @@ class BassinPoint extends Component {
 
 	handleChange = event => {
 		this.setState({checked: event.target.checked});
-		window.localStorage.setItem(this.state.id, JSON.stringify({checked: event.target.checked}));
+		window.localStorage.setItem(this.props.pointId, JSON.stringify({checked: event.target.checked}));
 	};
 
 	render() {
@@ -73,7 +73,7 @@ class BassinPoint extends Component {
 							color='primary'
 						/>
 					}
-					label={this.state.name + " : " + this.state.value + " " + this.state.unit}
+					label={this.state.name}
 					labelPlacement="start"
 				/>
 			);
