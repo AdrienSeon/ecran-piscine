@@ -51,7 +51,7 @@ class WidgetMeteo extends Component {
 		const className = 'widget ' + this.props.type.toLowerCase() + '-widget';
 		const altImg = this.props.type + '-icon';
 		
-		if(this.props.type == 'wind'){
+		if(this.props.type === 'wind'){
 			return (
 				<div className={className}>
 					<img src={windIcon} alt={altImg} />
