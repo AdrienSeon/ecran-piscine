@@ -20,7 +20,11 @@ router.post('/', function(req, res, next) {
 	    		let obixPointData = {};
 				const facet = result.real.str[0].$.display;
 				obixPointData.name = facet.split(',')[4].split('=')[1];
-				obixPointData.value = result.real.$.val;
+				
+				let value = parseFloat(result.real.$.val);
+				value = +value.toFixed(2)
+				obixPointData.value = value;
+
 				if(facet.split(',')[0].split('=')[1] === 'null'){
 					obixPointData.unit = '';
 				} else {
