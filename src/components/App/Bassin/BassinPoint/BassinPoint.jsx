@@ -20,10 +20,8 @@ class BassinPoint extends Component {
 
 		const localStorageState = window.localStorage.getItem(this.props.pointId);
 		if (localStorageState) {
-			console.log(JSON.parse(localStorageState))
 			this.state = JSON.parse(localStorageState);
 		}
-
 		this.getObixData = this.getObixData.bind(this);
 		this.handleInputChange= this.handleChange.bind(this);
 	}
@@ -70,7 +68,6 @@ class BassinPoint extends Component {
 			return <p>{this.state.name + " : "}<span>{this.state.value + " " + this.state.unit}</span></p>;
 		}else if(this.props.isHovering){
 			return(
-<<<<<<< HEAD
 				<div>
 					<FormControlLabel
 						control={
@@ -80,23 +77,10 @@ class BassinPoint extends Component {
 								color='primary'
 							/>
 						}
-						label={this.state.name + " : " + this.state.value + " " + this.state.unit}
+						label={this.state.name}
 						labelPlacement="start"
 					/>
 				</div>
-=======
-				<FormControlLabel
-					control={
-						<Switch 
-							onChange={this.handleChange} 
-							checked={this.state.checked}
-							color='primary'
-						/>
-					}
-					label={this.state.name}
-					labelPlacement="start"
-				/>
->>>>>>> d22c6d85342835e8054a6c80b21704cbcdc83ceb
 			);
 		}else{
 			return null;
