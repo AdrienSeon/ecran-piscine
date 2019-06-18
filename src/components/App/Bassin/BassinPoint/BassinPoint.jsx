@@ -41,6 +41,11 @@ class BassinPoint extends Component {
 		})
 		.catch((error) => {
 			console.log(error);
+			this.setState({ 
+				name: '-',
+				value: '-',
+				unit: '-'
+			});
 		})
 	}
 
@@ -65,17 +70,19 @@ class BassinPoint extends Component {
 			return <p>{this.state.name + " : "}<span>{this.state.value + " " + this.state.unit}</span></p>;
 		}else if(this.props.isHovering){
 			return(
-				<FormControlLabel
-					control={
-						<Switch 
-							onChange={this.handleChange} 
-							checked={this.state.checked}
-							color='primary'
-						/>
-					}
-					label={this.state.name + " : " + this.state.value + " " + this.state.unit}
-					labelPlacement="start"
-				/>
+				<div>
+					<FormControlLabel
+						control={
+							<Switch 
+								onChange={this.handleChange} 
+								checked={this.state.checked}
+								color='primary'
+							/>
+						}
+						label={this.state.name + " : " + this.state.value + " " + this.state.unit}
+						labelPlacement="start"
+					/>
+				</div>
 			);
 		}else{
 			return null;
