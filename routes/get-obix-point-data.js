@@ -4,7 +4,7 @@ var axios = require('axios');
 var parseString = require('xml2js').parseString;
 
 router.post('/', function(req, res, next) {
-	const ipGTB = '192.168.1.124:81';
+	const ipGTB = '192.168.1.18:81';
 	const url = 'http://' + ipGTB + '/obix/config/Drivers/' + req.body.pointUrl;
 
 	axios.get(url, {
