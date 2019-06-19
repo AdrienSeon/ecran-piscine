@@ -20,21 +20,19 @@ router.post('/', function(req, res, next) {
 				const facet = result.real.str[0].$.display;
 //tests plus poussés a faire suivant les data recues
 				obixPointData.name = facet.split(',')[4].split('=')[1];
-				
+
 				let value = parseFloat(result.real.$.val);
-				value = +value.toFixed(1);
+				let precision = 1;
+				if(facet.split(',')[1].split('=')[0] === 'precision'){
+					precision = parseInt(facet.split(',')[1].split('=')[1]);
+				}
+				value = +value.toFixed(precision);
 				obixPointData.value = value;
 
 				if(facet.split(',')[0].split('=')[1] === 'null'){
 					obixPointData.unit = '';
 				} else {
 					obixPointData.unit = facet.split(',')[0].split('=')[1];
-				}
-
-				if(facet.split(',')[1].split('=')[0] === 'precision'){
-					obixPointData.precision = parseInt(facet.split(',')[1].split('=')[1]);
-				} else {
-					obixPointData.precision = 1;
 				}
 
 			    res.send(obixPointData);
