@@ -16,13 +16,13 @@ router.post('/', function(req, res, next) {
 	.then((response) => {
 		parseString(response.data, function (err, result) {
 		    try {
-				
 	    		let obixPointData = {};
 				const facet = result.real.str[0].$.display;
+//tests plus poussés a faire suivant les data recues
 				obixPointData.name = facet.split(',')[4].split('=')[1];
 				
 				let value = parseFloat(result.real.$.val);
-				value = +value.toFixed(2)
+				value = +value.toFixed(1);
 				obixPointData.value = value;
 
 				if(facet.split(',')[0].split('=')[1] === 'null'){
@@ -30,7 +30,13 @@ router.post('/', function(req, res, next) {
 				} else {
 					obixPointData.unit = facet.split(',')[0].split('=')[1];
 				}
-				console.log(JSON.stringify(obixPointData, null, 4))
+
+				if(facet.split(',')[1].split('=')[0] === 'precision'){
+					obixPointData.precision = parseInt(facet.split(',')[1].split('=')[1]);
+				} else {
+					obixPointData.precision = 1;
+				}
+
 			    res.send(obixPointData);
 			} catch(error) {
 				console.log('Error while parsing xml : ' + error);
