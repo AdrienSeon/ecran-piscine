@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import CssBaseline from '@material-ui/core/CssBaseline';
 import MuiThemeProvider from "@material-ui/core/styles/MuiThemeProvider";
-import EditeurCentral from './EditeurCentral';
+import CentralEditor from './CentralEditor';
 import Bassin from './Bassin';
 import DateDisplay from './DateDisplay';
 import WidgetMeteo from './WidgetMeteo';
@@ -29,7 +29,7 @@ class App extends Component {
 								pointUrl="BacnetNetwork/AE%242dCH/points/AE%242dCH%2420Commun/AnalogInput/Anemometre"
 							/>
 							<DateDisplay />
-							<EditeurCentral />
+							<CentralEditor />
 							<Bassin
 								id="bassin1"
 								name="Bassin bien-être"
