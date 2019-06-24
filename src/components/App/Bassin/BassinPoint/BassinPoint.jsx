@@ -18,10 +18,6 @@ class BassinPoint extends Component {
 			error: null,
 		}
 
-		const localStorageState = window.localStorage.getItem(this.props.pointId);
-		if (localStorageState) {
-			this.state = JSON.parse(localStorageState);
-		}
 		this.getObixData = this.getObixData.bind(this);
 		this.handleInputChange= this.handleChange.bind(this);
 	}
@@ -48,6 +44,13 @@ class BassinPoint extends Component {
 	}
 
 	componentDidMount() {
+		this.hydrateStateWithDB();
+
+		window.addEventListener(
+			"beforeunload",
+			this.saveCheckedToDB.bind(this)
+		);
+
 		this.getObixData(this.props.pointUrl)
 		this.interval = setInterval(() => {
 			this.getObixData(this.props.pointUrl)
@@ -56,11 +59,37 @@ class BassinPoint extends Component {
 
 	componentWillUnmount () {
 		clearInterval(this.interval);
+
+		window.removeEventListener(
+			"beforeunload",
+			this.saveCheckedToDB.bind(this)
+		);
+
+		this.saveCheckedToDB();
+	}
+
+	hydrateStateWithDB() {
+		axios.get('/bassin-point/'+this.state.id)
+		.then((response) =>{
+			this.setState({checked: response.data[0].checked});
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+	}
+
+	saveCheckedToDB() {
+		axios.post('/bassin-point/save/'+this.state.id, {
+			'name': this.state.id,
+			'checked': this.state.checked
+		})
+		.catch((error) => {
+			console.log(error);
+		})
 	}
 
 	handleChange = event => {
-		this.setState({checked: event.target.checked});
-		window.localStorage.setItem(this.props.pointId, JSON.stringify({checked: event.target.checked}));
+		this.setState({checked: event.target.checked}, () => this.saveCheckedToDB());
 	};
 
 	render() {
