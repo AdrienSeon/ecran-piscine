@@ -9,6 +9,7 @@ const config = require('./utils/dbConfig.js');
 let getIndex = require('./routes/index');
 let getObixPointDataRouter = require('./routes/get-obix-point-data');
 let CentralEditorRouter = require('./routes/CentralEditor.route');
+let BassinPointRouter = require('./routes/BassinPoint.route');
 
 let app = express();
 
@@ -28,5 +29,6 @@ app.use(express.static(path.join(__dirname, 'build')));
 app.use('/', getIndex);
 app.use('/get-obix-point-data', getObixPointDataRouter);
 app.use('/central-editor', CentralEditorRouter);
+app.use('/bassin-point', BassinPointRouter);
 
 module.exports = app;
