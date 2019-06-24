@@ -1,67 +1,83 @@
 const express = require('express');
-const centralEditorRoutes = express.Router();
+const bassinPointRoutes = express.Router();
 
-// Require CentralEditor model in our routes module
-let CentralEditor = require('../utils/dbModels/CentralEditor.model');
+let BassinPoint = require('../utils/dbModels/BassinPoint.model');
 
-// Defined store route
-centralEditorRoutes.route('/add').post(function (req, res) {
-	let editor = new CentralEditor(req.body);
-
-	editor.save()
-		.then(editor => {
-			res.status(200).json({'editor': 'editor in added successfully'});
-		})
-		.catch(err => {
-			res.status(400).send("Unable to save to database");
-		});
-});
-
-// Defined get data(index or listing) route
-centralEditorRoutes.route('/').get(function (req, res) {
-	CentralEditor.find(function(err, editor){
+bassinPointRoutes.route('/').get(function (req, res) {
+	BassinPoint.find(function(err, point){
 		if (err) {
 			console.log(err);
 		} else {
-			res.json(editor);
+			res.json(point);
 		}
 	});
 });
 
-// Defined get id route
-centralEditorRoutes.route('/:id').get(function(req, res) {
-    let id = req.params.id;
-    CentralEditor.findById(id, function(err, editor) {
-        res.json(editor);
+bassinPointRoutes.route('/:name').get(function(req, res) {
+    BassinPoint.find({ name: req.params.name }, function(err, point) {
+		if (!err && point == 0) {
+			res.status(404).send("data is not found");
+		} else {
+			res.status(200).json(point)
+		}
     });
 });
 
-//  Defined update route
-centralEditorRoutes.route('/update/:id').post(function (req, res) {
-	CentralEditor.findById(req.params.id, function(err, editor) {
-		if (!editor)
-			res.status(404).send("data is not found");
-		else {
-			editor.editorContent = req.body.editorContent;
-			editor.save().then(editor => {
-				res.json('Update complete');
-			})
-			.catch(err => {
-				res.status(400).send("Unable to update the database");
+bassinPointRoutes.route('/save/:name').post(function (req, res) {
+	console.log('tryin to save '+req.params.name)
+    BassinPoint.find({ name: req.params.name }, function(err, point) {
+		if (!err && point == 0) {
+			let point = new BassinPoint(req.body);
+			point.save()
+				.then(point => {
+					res.status(200).json({'point': 'point in added successfully'});
+				})
+				.catch(err => {
+					res.status(400).send("Unable to save to database");
+				});
+		} else {
+   			BassinPoint.findById(point[0]._id, function(err, point) {
+				if (!point)
+					res.status(404).send("data is not found");
+				else {
+					point.checked = req.body.checked;
+					point.save()
+						.then(point => {
+							res.status(200).json('Update complete');
+						})
+						.catch(err => {
+							res.status(400).send("Unable to update the database");
+						});
+				}
 			});
 		}
 	});
 });
 
-// Defined delete | remove | destroy route
-centralEditorRoutes.route('/delete/:id').get(function (req, res) {
-    CentralEditor.findByIdAndRemove({_id: req.params.id}, function(err, editor){
+bassinPointRoutes.route('/deleteByName/:name').delete(function (req, res) {
+	BassinPoint.find({ name: req.params.name }, function(err, point) {
+		if (!err && point == 0) {
+			res.status(404).send("data is not found");
+		} else {
+		    BassinPoint.findByIdAndRemove(point[0]._id, function(err, point){
+		        if (err) {
+		        	res.status(400).json(err);
+		        } else {
+		        	res.status(200).json('Successfully removed');
+		        }
+		    });
+		}
+	});
+});
+
+bassinPointRoutes.route('/deleteById/:id').delete(function (req, res) {
+    BassinPoint.findByIdAndRemove({_id: req.params.id}, function(err, point){
         if (err) {
-        	res.json(err);
+        	res.status(400).json(err);
         } else {
-        	res.json('Successfully removed');
+        	res.status(200).json('Successfully removed');
         }
     });
 });
 
-module.exports = centralEditorRoutes;
+module.exports = bassinPointRoutes;
