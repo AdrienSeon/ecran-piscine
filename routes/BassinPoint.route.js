@@ -24,13 +24,12 @@ bassinPointRoutes.route('/:name').get(function(req, res) {
 });
 
 bassinPointRoutes.route('/save/:name').post(function (req, res) {
-	console.log('tryin to save '+req.params.name)
     BassinPoint.find({ name: req.params.name }, function(err, point) {
 		if (!err && point == 0) {
 			let point = new BassinPoint(req.body);
 			point.save()
 				.then(point => {
-					res.status(200).json({'point': 'point in added successfully'});
+					res.status(200).json({'point': 'point added successfully'});
 				})
 				.catch(err => {
 					res.status(400).send("Unable to save to database");
