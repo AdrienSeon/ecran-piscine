@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 var axios = require('axios');
 var parseString = require('xml2js').parseString;
+const config = require('../utils/config.js');
 
 router.post('/', function(req, res, next) {
-	const ipGTB = '192.168.1.18:81';
-	const url = 'http://' + ipGTB + '/obix/config/Drivers/' + req.body.pointUrl;
+	const url = 'http://' + config.app.obix.host + ':' + config.app.obix.port + '/obix/config/Drivers/' + req.body.pointUrl;
 
 	axios.get(url, {
 			auth: {
-				username: 'obix',
-				password: 'syscom'
+				username: config.app.obix.username,
+				password: config.app.obix.password
 			},
 	})
 	.then((response) => {
@@ -42,7 +42,7 @@ router.post('/', function(req, res, next) {
 		});
 	})
 	.catch((error) => {
-		console.log(error);
+		//console.log(error);
 	})
 });
 
