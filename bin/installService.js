@@ -8,7 +8,7 @@ var svc = new Service({
 	script: require('path').join(__dirname,'www'),
 	env: [{
 		name: "NODE_ENV",
-		value: "dev"
+		value: "prod"
 	}]
 });
 
