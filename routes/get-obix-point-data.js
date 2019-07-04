@@ -35,9 +35,9 @@ router.post('/', function(req, res, next) {
 					obixPointData.unit = facet.split(',')[0].split('=')[1];
 				}
 
-			    res.send(obixPointData);
+				res.status(200).json(obixPointData);
 			} catch(error) {
-				console.log('Error while parsing xml : ' + error);
+				res.status(400).send('Error while parsing xml : ' + error);
 			}
 		});
 	})

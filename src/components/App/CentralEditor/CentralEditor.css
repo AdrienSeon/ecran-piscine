@@ -1,4 +1,4 @@
-.EditeurCentral-wrapper {
+.CentralEditor-wrapper {
 	background: url("../../../assets/images/editeur-bg.png") no-repeat;
 	margin: 0 auto;
 	width: 1204px;
@@ -14,7 +14,7 @@
 	margin-bottom: 10px;
 }
 
-.EditeurCentral-editor {
+.CentralEditor-editor {
 	box-sizing: content-box;
 	overflow-y: scroll;
 	padding-right: 17px;
