@@ -1,5 +1,5 @@
 # ecran-piscine
 
-#### Application d'affichage d'information GTB sur écran déporté type accueil
+#### Application d'affichage d'informations GTB sur écran déporté type accueil.
 
-Version pour maintien de la compatibilité pour la version 1.0 de l'application avec stockage en local côté client des informations
+Version pour maintien de la compatibilité pour la version 1.0 de l'application avec stockage local côté client des informations.
