@@ -52,13 +52,17 @@ class BassinPoint extends Component {
 		);
 
 		this.getObixData(this.props.pointUrl)
-		this.interval = setInterval(() => {
+		this.dataUpdateInterval = setInterval(() => {
 			this.getObixData(this.props.pointUrl)
 		}, 60000)
+		this.dbUpdateInterval = setInterval(() => {
+			this.hydrateStateWithDB()
+		}, 90000)
 	}
 
 	componentWillUnmount () {
-		clearInterval(this.interval);
+		clearInterval(this.dataUpdateInterval);
+		clearInterval(this.dbUpdateInterval);
 
 		window.removeEventListener(
 			"beforeunload",
