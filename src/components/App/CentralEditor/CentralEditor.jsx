@@ -15,6 +15,7 @@ class CentralEditor extends Component {
 		this.setState({
 			editorState,
 		});
+		this.saveEditorContentToDB();
 	}
 
 	componentDidMount() {
@@ -24,6 +25,10 @@ class CentralEditor extends Component {
 			"beforeunload",
 			this.saveEditorContentToDB.bind(this)
 		);
+
+		this.interval = setInterval(() => {
+			this.hydrateEditorContentWithDB();
+		}, 60000)
 	}
 
 	componentWillUnmount() {

@@ -53,7 +53,8 @@ class BassinPoint extends Component {
 
 		this.getObixData(this.props.pointUrl)
 		this.interval = setInterval(() => {
-			this.getObixData(this.props.pointUrl)
+			this.hydrateStateWithDB();
+			this.getObixData(this.props.pointUrl);
 		}, 60000)
 	}
 
